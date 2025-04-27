@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 tokio = { version = "1", features = ["full"] }
 mini-redis = "0.4"
+bytes = "1"
 
 [profile.dev]
 overflow-checks = false
