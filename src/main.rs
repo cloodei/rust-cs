@@ -8,7 +8,6 @@ use std::{collections::HashMap, sync::{Arc, Mutex}};
 #[tokio::main]
 async fn main() {
     let x = TcpListener::bind("0.0.0.0:6379").await.unwrap();
-    // let x = TcpListener::bind("127.0.0.1:6379").await.unwrap();
     println!("Server has started on: http://{}\n", x.local_addr().unwrap());
     let db = Arc::new(Mutex::new(HashMap::new()));
 
@@ -18,8 +17,8 @@ async fn main() {
         match y {
             Ok((z, _)) => {
                 let some = db.clone();
-
-                tokio::spawn(async {
+                
+                tokio::spawn(async move {
                     process(z, some).await;
                 });
             },
@@ -54,6 +53,8 @@ async fn process(socket: TcpStream, db: Arc<Mutex<HashMap<String, Bytes>>>) {
             }
         };
 
-        connection.write_frame(&response).await.unwrap();
+        if let Err(e) = connection.write_frame(&response).await {
+            println!("You ain't wrote shit nga: {e:?}");
+        };
     }
 }

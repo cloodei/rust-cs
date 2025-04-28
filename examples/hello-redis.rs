@@ -2,8 +2,7 @@ use mini_redis::{client, Result};
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    // let mut client = client::connect("127.0.0.1:6379").await?;
-    let mut client = client::connect("192.168.1.10:6379").await?;
+    let mut client = client::connect("127.0.0.1:6379").await?;
     
     client.set("the", "phone".into()).await?;
     client.set("rings", "but".into()).await?;
